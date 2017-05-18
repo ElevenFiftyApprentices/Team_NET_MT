@@ -11,6 +11,7 @@ using ShoppingList.Data.Models;
 using ShoppingList.Models;
 using Microsoft.AspNet.Identity;
 using ShoppingList.Services;
+using PagedList;
 
 namespace ShoppingList.Web.Controllers
 {
@@ -19,9 +20,49 @@ namespace ShoppingList.Web.Controllers
         private ShoppingListDbContext db = new ShoppingListDbContext();
 
         // GET: ListItems
-        public ActionResult Index()
+        // GET: Customer
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            return View(db.ShoppingListItems.ToList());
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.ItemSortParm = String.IsNullOrEmpty(sortOrder) ? "item_desc" : "";
+            ViewBag.PrioritySortParm = sortOrder == "Priority" ? "priority_desc" : "Priority";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            var items = from s in db.ShoppingListItems
+                            select s;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                items = items.Where(s => s.Contents.Contains(searchString));
+   
+            }
+            switch (sortOrder)
+            {
+                case "item_desc":
+                    items = items.OrderByDescending(s => s.Contents);
+                    break;
+                case "Priority":
+                    items = items.OrderBy(s => s.Priority);
+                    break;
+                case "priority_desc":
+                    items = items.OrderByDescending(s => s.Priority);
+                    break;
+                default:
+                    items = items.OrderBy(s => s.Contents);
+                    break;
+            }
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
+            return View(items.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: ListItems/Details/5

@@ -1,5 +1,5 @@
-﻿@model IEnumerable<ShoppingList.Data.ShoppingListItem>
-
+﻿@model PagedList.IPagedList<ShoppingList.Data.ShoppingListItem>
+@using PagedList.Mvc;
 @{
     ViewBag.Title = "Index";
 }
@@ -21,18 +21,23 @@
 
 <table class="table">
     <tr>
-        
         <th>
+            @Html.ActionLink("Content", "Index", new { sortOrder = ViewBag.ItemSortParm})
+        </th>
+        @*<th>
             @Html.DisplayNameFor(model => model.Contents)
-        </th>
+        </th>*@
         <th>
+            @Html.ActionLink("Priority", "Index", new { sortOrder = ViewBag.PriorityPram })
+        </th>
+        @*<th>
             @Html.DisplayNameFor(model => model.Priority)
+        </th>*@
+        <th>
+            Note
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Note)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsChecked)
+            IsChecked
         </th>
        
         <th></th>
