@@ -32,6 +32,8 @@ namespace ShoppingList.Data
         [DefaultValue(Priorities.ItCanWait)]
         public Priorities Priority { get; set; }
 
+        public string Note { get; set; }
+
         [DefaultValue(false)]
         public bool IsChecked { get; set; }
 
