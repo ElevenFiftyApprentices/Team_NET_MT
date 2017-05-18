@@ -11,9 +11,7 @@
 </p>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ShoppingListID)
-        </th>
+        
         <th>
             @Html.DisplayNameFor(model => model.Contents)
         </th>
@@ -26,38 +24,36 @@
         <th>
             @Html.DisplayNameFor(model => model.IsChecked)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CreatedUtc)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ModidiedUtc)
-        </th>
+       
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ShoppingListID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Contents)
-        </td>
+       
+        @if (item.IsChecked == false)
+        {
+                <td> @Html.DisplayFor(modelItem => item.Contents) </td>
+        }
+        else
+        {
+            <td><strike>@Html.DisplayFor(modelItem => item.Contents)</strike></td>
+        }
         <td>
             @Html.DisplayFor(modelItem => item.Priority)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Note)
-        </td>
+        @if (item.IsChecked == false)
+        {
+                <td> @Html.DisplayFor(modelItem => item.Note) </td>
+        }
+        else
+        {
+            <td><strike>@Html.DisplayFor(modelItem => item.Note)</strike></td>
+        }
         <td>
             @Html.DisplayFor(modelItem => item.IsChecked)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreatedUtc)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ModidiedUtc)
-        </td>
+        
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.ShoppingListItemID }) |
             @Html.ActionLink("Details", "Details", new { id=item.ShoppingListItemID }) |
