@@ -1,45 +1,30 @@
-﻿using System;
+﻿using ShoppingList.Data;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShoppingList.Data
+namespace ShoppingList.Models
 {
-    public enum Priorities
+    public class ShoppingItemEdit
     {
-        ItCanWait,
-        NeedItSoon,
-        GrabItNow
-    }
-
-    public class ShoppingListItem
-    {
-        [Key]       
         public int ShoppingListItemID { get; set; }
 
-        public int ShoppingListID { get; set; }
-
         [Required]
+        [MinLength(2, ErrorMessage = "Please enter at least two characters.")]
+        [MaxLength(128)]
         public string Contents { get; set; }
 
         [Required]
         [DefaultValue(Priorities.ItCanWait)]
         public Priorities Priority { get; set; }
 
+        [MaxLength(8000)]
         public string Note { get; set; }
 
-        [DefaultValue(false)]
         public bool IsChecked { get; set; }
-
-        [Required]
-        public DateTimeOffset CreatedUtc { get; set; }
-
-        public DateTimeOffset? ModidiedUtc { get; set; }
-
-
     }
 }

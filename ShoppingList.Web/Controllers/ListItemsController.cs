@@ -8,6 +8,9 @@ using System.Web;
 using System.Web.Mvc;
 using ShoppingList.Data;
 using ShoppingList.Data.Models;
+using ShoppingList.Models;
+using Microsoft.AspNet.Identity;
+using ShoppingList.Services;
 
 namespace ShoppingList.Web.Controllers
 {
@@ -47,16 +50,23 @@ namespace ShoppingList.Web.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ShoppingListItemID,ShoppingListID,Contents,Priority,Note,IsChecked,CreatedUtc,ModidiedUtc")] ShoppingListItem shoppingListItem)
+        public ActionResult Create(ShoppingItemCreate model)
         {
-            if (ModelState.IsValid)
+
+
+            if (!ModelState.IsValid) return View(model);
+
+            var service = CreateService();
+
+            if (service.CreateItem(model))
             {
-                db.ShoppingListItems.Add(shoppingListItem);
-                db.SaveChanges();
+                TempData["SaveResult"] = "Your note was successfully created!";
                 return RedirectToAction("Index");
             }
 
-            return View(shoppingListItem);
+            ModelState.AddModelError("", "Your note could not be created.");
+            return RedirectToAction("Index");
+
         }
 
         // GET: ListItems/Edit/5
@@ -123,6 +133,13 @@ namespace ShoppingList.Web.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private ShoppingListItemService CreateService()
+        {
+            var userId = Guid.Parse(User.Identity.GetUserId());
+            var service = new ShoppingListItemService(userId);
+            return service;
         }
     }
 }
