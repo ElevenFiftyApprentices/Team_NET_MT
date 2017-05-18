@@ -11,12 +11,12 @@ namespace ShoppingList.Models
 {
     public class ShoppingItemCreate
     {
-        private Guid userId;
+        //private Guid userId;
 
-        public ShoppingItemCreate(Guid userId)
-        {
-            this.userId = userId;
-        }
+        //public ShoppingItemCreate(Guid userId)
+        //{
+        //    this.userId = userId;
+        //}
 
         [Required]
         [MinLength(2, ErrorMessage = "Please enter at least two characters.")]

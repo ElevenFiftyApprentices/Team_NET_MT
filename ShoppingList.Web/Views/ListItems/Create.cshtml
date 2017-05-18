@@ -1,4 +1,4 @@
-﻿@model ShoppingList.Data.ShoppingListItem
+﻿@model ShoppingList.Models.ShoppingItemCreate
 
 @{
     ViewBag.Title = "Create";
@@ -15,9 +15,6 @@
         <h4>ShoppingListItem</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.HiddenFor(model => model.ShoppingListID, htmlAttributes: new { @class = "control-label col-md-2" })
-        </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.Contents, htmlAttributes: new { @class = "control-label col-md-2" })

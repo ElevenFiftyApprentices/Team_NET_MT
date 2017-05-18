@@ -18,8 +18,7 @@ namespace ShoppingList.Data
 
     public class ShoppingListItem
     {
-        [Key]
-        
+        [Key]       
         public int ShoppingListItemID { get; set; }
 
         public int ShoppingListID { get; set; }

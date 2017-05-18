@@ -27,7 +27,7 @@ namespace ShoppingList.Services
                     Priority = model.Priority,
                     Note = model.Note,
                     IsChecked = false,
-
+                    CreatedUtc = DateTimeOffset.UtcNow
                 };
 
             using (var ctx = new ShoppingListDbContext())

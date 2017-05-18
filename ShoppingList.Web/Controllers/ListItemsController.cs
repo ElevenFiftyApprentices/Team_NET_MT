@@ -54,7 +54,7 @@ namespace ShoppingList.Web.Controllers
         {
 
 
-            if (ModelState.IsValid) return View(model);
+            if (!ModelState.IsValid) return View(model);
 
             var service = CreateService();
 
