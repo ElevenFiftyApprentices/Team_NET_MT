@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ShoppingList.Data
 {
-    class ShoppingList
+    public class ShoppingList
     {
         [Key]
         public int ShoppingListID { get; set; }

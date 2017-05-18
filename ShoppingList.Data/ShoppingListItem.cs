@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace ShoppingList.Data
 {
-    enum Priorities
+    public enum Priorities
     {
         ItCanWait,
         NeedItSoon,
         GrabItNow
     }
 
-    class ShoppingListItem
+    public class ShoppingListItem
     {
         [Key]
         
