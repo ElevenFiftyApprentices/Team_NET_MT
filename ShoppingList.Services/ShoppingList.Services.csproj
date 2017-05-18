@@ -53,12 +53,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="ShoppingListItemService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ShoppingList.Data\ShoppingList.Data.csproj">
+      <Project>{587A7824-3FE9-4810-B0D4-2B40B6E445F9}</Project>
+      <Name>ShoppingList.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ShoppingList.Models\ShoppingList.Models.csproj">
+      <Project>{63FFE35D-113A-488D-AA60-883A6D64D74B}</Project>
+      <Name>ShoppingList.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
