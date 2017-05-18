@@ -22,7 +22,6 @@ namespace ShoppingList.Data
         
         public int ShoppingListItemID { get; set; }
 
-        [Required]
         public int ShoppingListID { get; set; }
 
         [Required]
