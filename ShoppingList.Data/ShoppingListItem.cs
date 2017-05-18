@@ -1,0 +1,45 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ShoppingList.Data
+{
+    enum Priorities
+    {
+        ItCanWait,
+        NeedItSoon,
+        GrabItNow
+    }
+
+    class ShoppingListItem
+    {
+        [Key]
+        
+        public int ShoppingListItemID { get; set; }
+
+        [Required]
+        public int ShoppingListID { get; set; }
+
+        [Required]
+        public string Contents { get; set; }
+
+        [Required]
+        [DefaultValue(Priorities.ItCanWait)]
+        public Priorities Priority { get; set; }
+
+        [DefaultValue(false)]
+        public bool IsChecked { get; set; }
+
+        [Required]
+        public DateTimeOffset CreatedUtc { get; set; }
+
+        public DateTimeOffset? ModidiedUtc { get; set; }
+
+
+    }
+}

@@ -17,16 +17,16 @@ namespace ShoppingList.Web.Models
             return userIdentity;
         }
     }
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ShoppingListDbContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext()
+        public ShoppingListDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
 
-        public static ApplicationDbContext Create()
+        public static ShoppingListDbContext Create()
         {
-            return new ApplicationDbContext();
+            return new ShoppingListDbContext();
         }
     }
 }
