@@ -33,6 +33,5 @@ namespace ShoppingList.Data.Models
 
         public DbSet<ShoppingListItem> ShoppingListItems { get; set; }
 
-        public DbSet<Note> Notes { get; set; }
     }
 }
