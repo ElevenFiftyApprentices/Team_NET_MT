@@ -23,6 +23,8 @@ namespace ShoppingList.Data
 
         public int ShoppingListID { get; set; }
 
+        public Guid OwnerId { get; set; }
+
         [Required]
         public string Contents { get; set; }
 
@@ -38,7 +40,7 @@ namespace ShoppingList.Data
         [Required]
         public DateTimeOffset CreatedUtc { get; set; }
 
-        public DateTimeOffset? ModidiedUtc { get; set; }
+        public DateTimeOffset? ModifiedUtc { get; set; }
 
 
     }

@@ -14,6 +14,7 @@ using ShoppingList.Services;
 
 namespace ShoppingList.Web.Controllers
 {
+    [Authorize]
     public class ListItemsController : Controller
     {
         private ShoppingListDbContext db = new ShoppingListDbContext();
@@ -70,18 +71,21 @@ namespace ShoppingList.Web.Controllers
         }
 
         // GET: ListItems/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ShoppingListItem shoppingListItem = db.ShoppingListItems.Find(id);
-            if (shoppingListItem == null)
-            {
-                return HttpNotFound();
-            }
-            return View(shoppingListItem);
+
+            var service = CreateService();
+            var detail = service.GetNoteById(id);
+
+            var model =
+                new ShoppingItemEdit
+                {
+                    ShoppingListItemID = detail.ShoppingListItemID,
+                    Contents = detail.Contents,
+                    Priority = detail.Priority,
+                    Note = detail.Note
+                };
+            return View(model);
         }
 
         // POST: ListItems/Edit/5
@@ -89,15 +93,28 @@ namespace ShoppingList.Web.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ShoppingListItemID,ShoppingListID,Contents,Priority,Note,IsChecked,CreatedUtc,ModidiedUtc")] ShoppingListItem shoppingListItem)
+        public ActionResult Edit(int id, ShoppingItemEdit model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return View(model);
+
+            if (model.ShoppingListItemID != id)
             {
-                db.Entry(shoppingListItem).State = EntityState.Modified;
-                db.SaveChanges();
+                ModelState.AddModelError("", "ID Mismatch");
+                return View(model);
+            }
+
+            var service = CreateService();
+
+
+            if (service.UpdateItem(model))
+            {
+                TempData["SaveResult"] = "Your note was successfully updated!";
                 return RedirectToAction("Index");
             }
-            return View(shoppingListItem);
+
+            ModelState.AddModelError("", "Your note could not be updated.");
+
+            return View(model);
         }
 
         // GET: ListItems/Delete/5
