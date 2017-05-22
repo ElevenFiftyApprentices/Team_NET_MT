@@ -29,7 +29,7 @@ namespace ShoppingList.Data.Models
             return new ShoppingListDbContext();
         }
 
-        public DbSet<ShoppingList> ShoppingLists { get; set; }
+        public DbSet<Shopping_List> ShoppingLists { get; set; }
 
         public DbSet<ShoppingListItem> ShoppingListItems { get; set; }
 

@@ -21,7 +21,7 @@ namespace ShoppingList.Data
         [Key]       
         public int ShoppingListItemID { get; set; }
 
-        public int ShoppingListID { get; set; }
+        public int Shopping_ListID { get; set; }
 
         public Guid OwnerId { get; set; }
 
