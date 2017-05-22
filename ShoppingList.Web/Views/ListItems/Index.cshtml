@@ -66,7 +66,7 @@
             <td><strike>@Html.DisplayFor(modelItem => item.Note)</strike></td>
         }
         <td>
-            @Html.DisplayFor(modelItem => item.IsChecked)
+            @Html.DisplayFor(modelItem => item.IsChecked, new { Id = item.ShoppingListItemID })
         </td>
         
         <td>
@@ -83,3 +83,30 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
 
 @Html.PagedListPager(Model, page => Url.Action("Index",
     new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+
+@section scripts {
+    <script language="javascript" type="text/javascript">
+        $(document).ready(function () {
+            $("i[data-toggle='star']")
+                .css({ "cursor": "pointer" })
+                .click(function (e) {
+                    var target = $(e.target);
+                    var itemId = target.attr("data-id");
+                    var checkSet = target.hasClass("glyphicon-check");
+
+                   $.ajax({
+                        method: checkSet ? "DELETE" : "PUT",
+                        url: "/api/note/" + itemId + "/star",
+                        data: null
+                    })
+                    .done(function (r) {
+                        target.removeClass();
+                        target.addClass("glyphicon " + (checkSet ? "glyphicon-unchecked" : "glyphicon-check"));
+                    })
+                    .fail(function (r) {
+                        alert("Failed to change check status");
+                    });
+                });
+        });
+    </script>
+}
