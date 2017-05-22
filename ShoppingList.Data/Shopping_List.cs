@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace ShoppingList.Data
 {
-    public class ShoppingList
+    public class Shopping_List
     {
         [Key]
-        public int ShoppingListID { get; set; }
+        public int Shopping_ListID { get; set; }
 
         [Required]
         public int UserID { get; set; }
