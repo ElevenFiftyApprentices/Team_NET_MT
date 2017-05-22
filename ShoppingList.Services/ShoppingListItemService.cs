@@ -1,9 +1,12 @@
 ﻿using ShoppingList.Data;
+using System.Data.Entity;
 using ShoppingList.Data.Models;
 using ShoppingList.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNet.Identity;
+using ShoppingList.Services;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,6 +15,8 @@ namespace ShoppingList.Services
     public class ShoppingListItemService
     {
         private readonly Guid _userId;
+
+        private ShoppingListDbContext db = new ShoppingListDbContext();
 
         public ShoppingListItemService(Guid userId)
         {
@@ -39,7 +44,7 @@ namespace ShoppingList.Services
             }
         }
 
-        public IEnumerable<ShoppingItemEdit> GetItems()
+        public IEnumerable<ShoppingItemIndex> GetItems()
         {
             using (var ctx = new ShoppingListDbContext())
             {
@@ -49,7 +54,7 @@ namespace ShoppingList.Services
                         .Where(e => e.OwnerId == _userId)
                         .Select(
                             e =>
-                                new ShoppingItemEdit
+                                new ShoppingItemIndex
                                 {
                                     ShoppingListItemID = e.ShoppingListItemID,
                                     Note = e.Note,
@@ -60,6 +65,7 @@ namespace ShoppingList.Services
                             );
                 return query.ToArray();
             }
+
         }
 
         public ShoppingItemEdit GetNoteById(int shoppingListItemID)
