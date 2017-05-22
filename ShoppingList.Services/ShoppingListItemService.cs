@@ -52,6 +52,7 @@ namespace ShoppingList.Services
                                 new ShoppingItemEdit
                                 {
                                     ShoppingListItemID = e.ShoppingListItemID,
+                                    Note = e.Note,
                                     IsChecked = e.IsChecked,
                                     Contents = e.Contents,
                                     Priority = e.Priority
@@ -77,6 +78,7 @@ namespace ShoppingList.Services
                         ShoppingListItemID = entity.ShoppingListItemID,
                         Contents = entity.Contents,
                         Priority = entity.Priority,
+                        Note = entity.Note,
                         IsChecked = entity.IsChecked,
                         ModifiedUtc = entity.ModifiedUtc
                     };
@@ -92,6 +94,7 @@ namespace ShoppingList.Services
                     .ShoppingListItems.Single(e => e.ShoppingListItemID == model.ShoppingListItemID && e.OwnerId == _userId);
                 entity.Contents = model.Contents;
                 entity.Priority = model.Priority;
+                entity.Note = model.Note;
                 entity.IsChecked = model.IsChecked;
                 entity.ModifiedUtc = DateTimeOffset.UtcNow;
 
