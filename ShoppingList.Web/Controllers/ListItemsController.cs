@@ -24,9 +24,15 @@ namespace ShoppingList.Web.Controllers
         // GET: Customer
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
+            var service = CreateService();
+
+            var items = service.GetItems();
+
+
             ViewBag.CurrentSort = sortOrder;
             ViewBag.ItemSortParm = String.IsNullOrEmpty(sortOrder) ? "item_desc" : "";
-            ViewBag.PrioritySortParm = sortOrder == "Priority" ? "priority_desc" : "Priority";
+            ViewBag.PrioritySortParm = sortOrder == "Priority" ? "priority_desc" : "Priority";            
+
 
             if (searchString != null)
             {
@@ -39,8 +45,6 @@ namespace ShoppingList.Web.Controllers
 
             ViewBag.CurrentFilter = searchString;
 
-            var items = from s in db.ShoppingListItems
-                            select s;
             if (!String.IsNullOrEmpty(searchString))
             {
                 items = items.Where(s => s.Contents.Contains(searchString));
