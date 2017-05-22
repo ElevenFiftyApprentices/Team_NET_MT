@@ -26,5 +26,7 @@ namespace ShoppingList.Models
         public string Note { get; set; }
 
         public bool IsChecked { get; set; }
+
+        public DateTimeOffset? ModifiedUtc { get; set; }
     }
 }

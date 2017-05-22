@@ -23,6 +23,7 @@ namespace ShoppingList.Services
             var entity =
                 new ShoppingListItem
                 {
+                    OwnerId = _userId,
                     Contents = model.Contents,
                     Priority = model.Priority,
                     Note = model.Note,
@@ -33,6 +34,69 @@ namespace ShoppingList.Services
             using (var ctx = new ShoppingListDbContext())
             {
                 ctx.ShoppingListItems.Add(entity);
+
+                return ctx.SaveChanges() == 1;
+            }
+        }
+
+        public IEnumerable<ShoppingItemEdit> GetItems()
+        {
+            using (var ctx = new ShoppingListDbContext())
+            {
+                var query =
+                    ctx
+                        .ShoppingListItems
+                        .Where(e => e.OwnerId == _userId)
+                        .Select(
+                            e =>
+                                new ShoppingItemEdit
+                                {
+                                    ShoppingListItemID = e.ShoppingListItemID,
+                                    Note = e.Note,
+                                    IsChecked = e.IsChecked,
+                                    Contents = e.Contents,
+                                    Priority = e.Priority
+                                }
+                            );
+                return query.ToArray();
+            }
+        }
+
+        public ShoppingItemEdit GetNoteById(int shoppingListItemID)
+        {
+            using (var ctx = new ShoppingListDbContext())
+            {
+                var entity =
+                    ctx
+                    .ShoppingListItems
+                    .Single(e => e.ShoppingListItemID == shoppingListItemID && e.OwnerId == _userId);
+
+
+                return
+                    new ShoppingItemEdit
+                    {
+                        ShoppingListItemID = entity.ShoppingListItemID,
+                        Contents = entity.Contents,
+                        Priority = entity.Priority,
+                        Note = entity.Note,
+                        IsChecked = entity.IsChecked,
+                        ModifiedUtc = entity.ModifiedUtc
+                    };
+            }
+        }
+
+        public bool UpdateItem(ShoppingItemEdit model)
+        {
+            using (var ctx = new ShoppingListDbContext())
+            {
+                var entity =
+                    ctx
+                    .ShoppingListItems.Single(e => e.ShoppingListItemID == model.ShoppingListItemID && e.OwnerId == _userId);
+                entity.Contents = model.Contents;
+                entity.Priority = model.Priority;
+                entity.Note = model.Note;
+                entity.IsChecked = model.IsChecked;
+                entity.ModifiedUtc = DateTimeOffset.UtcNow;
 
                 return ctx.SaveChanges() == 1;
             }
