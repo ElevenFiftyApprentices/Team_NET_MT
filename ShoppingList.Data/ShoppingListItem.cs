@@ -11,9 +11,9 @@ namespace ShoppingList.Data
 {
     public enum Priorities
     {
-        ItCanWait,
-        NeedItSoon,
-        GrabItNow
+        ItCanWait = 0,
+        NeedItSoon = 1,
+        GrabItNow = 2
     }
 
     public class ShoppingListItem
