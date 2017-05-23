@@ -1,0 +1,98 @@
+﻿@model PagedList.IPagedList<ShoppingList.Models.ShoppingItemIndex>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@if (TempData.ContainsKey("SaveResult"))
+{
+    <div class="alert alert-success fade in" role="alert">
+        <button type="button" class="close" data-dismiss="alert">
+            <span>&times;</span>
+        </button>
+        @TempData["SaveResult"]
+    </div>
+}
+
+@using (Html.BeginForm("Index", "ListItems", FormMethod.Get))
+
+{
+    <p>
+        Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" />
+    </p>
+}
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Content", "Index", new { sortOrder = ViewBag.ItemSortParm })
+        </th>
+        @*<th>
+                @Html.DisplayNameFor(model => model.Contents)
+            </th>*@
+        <th>
+            @Html.ActionLink("Priority", "Index", new { sortOrder = ViewBag.PriorityPram })
+        </th>
+        @*<th>
+                @Html.DisplayNameFor(model => model.Priority)
+            </th>*@
+        <th>
+            Note
+        </th>
+        <th>
+            Options
+        </th>
+
+        <th></th>
+    </tr>
+
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <div class="panel-body">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <div class="checkbox">
+                                <input type="checkbox" id="checkbox" />
+                                <label for="checkbox">
+                                    @Html.DisplayFor(modelItem => item.Contents)
+                                </label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Priority)
+            </td>
+
+            <td> @Html.DisplayFor(modelItem => item.Note) </td>
+
+            @*<td>
+                @Html.DisplayFor(modelItem => item.IsChecked, new { Id = item.ShoppingListItemID })
+            </td>*@
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ShoppingListItemID }) |
+                @*@Html.ActionLink("Details", "Details", new { id=item.ShoppingListItemID }) |*@
+                @Html.ActionLink("Delete", "Delete", new { id = item.ShoppingListItemID })
+            </td>
+        </tr>
+    }
+
+</table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

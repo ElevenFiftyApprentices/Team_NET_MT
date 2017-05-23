@@ -22,3 +22,64 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.trash {
+    color: rgb(209, 91, 71);
+}
+
+.flag {
+    color: rgb(248, 148, 6);
+}
+
+.panel-body {
+    padding: 0px;
+}
+
+.panel-footer .pagination {
+    margin: 0;
+}
+
+.panel .glyphicon, .list-group-item .glyphicon {
+    margin-right: 5px;
+}
+
+.panel-body .radio, .checkbox {
+    display: inline-block;
+    margin: 0px;
+}
+
+.panel-body input[type=checkbox]:checked + label {
+    text-decoration: line-through;
+    color: rgb(128, 144, 160);
+}
+
+.list-group-item:hover, a.list-group-item:focus {
+    text-decoration: none;
+    background-color: rgb(245, 245, 245);
+}
+
+.list-group {
+    margin-bottom: 0px;
+}
+
+.navbar-inverse {
+    background-color: #6fb6de;
+}
+    .navbar-inverse .navbar-nav > li > a {
+    color: black;
+}
+/*.container{
+    color: #6fb6de
+}*/
+.navbar-inverse .navbar-brand {
+    color: black;
+}
+h2, .h2 {
+    color: #e8484f;
+}
+.navbar-inverse .navbar-toggle:hover, .navbar-inverse .navbar-toggle:focus {
+    background-color: #e8484f;
+}
+.navbar-inverse .navbar-toggle {
+    background-color: #aaaaaa;
+}
