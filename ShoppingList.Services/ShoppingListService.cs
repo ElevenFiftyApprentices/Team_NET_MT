@@ -62,14 +62,14 @@ namespace ShoppingList.Services
 
         }
 
-        public ShoppingListEdit GetNoteById(int shoppingListItemID)
+        public ShoppingListEdit GetNoteById(int shoppingListID)
         {
             using (var ctx = new ShoppingListDbContext())
             {
                 var entity =
                     ctx
                     .ShoppingLists
-                    .Single(e => e.OwnerId == _userId);
+                    .Single(e => e.OwnerId == _userId && e.Shopping_ListID == shoppingListID);
 
 
                 return
@@ -89,7 +89,7 @@ namespace ShoppingList.Services
             {
                 var entity =
                     ctx
-                    .ShoppingLists.Single(e => e.OwnerId == _userId);
+                    .ShoppingLists.Single(e => e.OwnerId == _userId && e.Shopping_ListID == model.Shopping_ListID);
                 entity.Name = model.Name;
                 entity.Color = model.Color;
                 entity.ModifiedUtc = DateTimeOffset.UtcNow;

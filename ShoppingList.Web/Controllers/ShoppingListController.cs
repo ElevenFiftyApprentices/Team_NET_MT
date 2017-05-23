@@ -86,7 +86,6 @@ namespace ShoppingList.Web.Controllers
                     Shopping_ListID = detail.Shopping_ListID,
                     Name = detail.Name,
                     Color = detail.Color,
-                    ModifiedUtc = detail.ModifiedUtc
                 };
             return View(model);
         }
