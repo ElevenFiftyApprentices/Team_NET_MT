@@ -9,6 +9,17 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
+@if (TempData.ContainsKey("SaveResult"))
+{
+    <div class="alert alert-success fade in" role="alert">
+        <button type="button" class="close" data-dismiss="alert">
+            <span>&times;</span>
+        </button>
+        @TempData["SaveResult"]
+    </div>
+}
+
 @using (Html.BeginForm("Index", "ListItems", FormMethod.Get))
 
 {
@@ -22,60 +33,62 @@
 <table class="table">
     <tr>
         <th>
-            @Html.ActionLink("Content", "Index", new { sortOrder = ViewBag.ItemSortParm})
+            @Html.ActionLink("Content", "Index", new { sortOrder = ViewBag.ItemSortParm })
         </th>
         @*<th>
-            @Html.DisplayNameFor(model => model.Contents)
-        </th>*@
+                @Html.DisplayNameFor(model => model.Contents)
+            </th>*@
         <th>
             @Html.ActionLink("Priority", "Index", new { sortOrder = ViewBag.PriorityPram })
         </th>
         @*<th>
-            @Html.DisplayNameFor(model => model.Priority)
-        </th>*@
+                @Html.DisplayNameFor(model => model.Priority)
+            </th>*@
         <th>
             Note
         </th>
         <th>
-            IsChecked
+            Options
         </th>
-       
+
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-       
-        @if (item.IsChecked == false)
-        {
-                <td> @Html.DisplayFor(modelItem => item.Contents) </td>
-        }
-        else
-        {
-            <td><strike>@Html.DisplayFor(modelItem => item.Contents)</strike></td>
-        }
-        <td>
-            @Html.DisplayFor(modelItem => item.Priority)
-        </td>
-        @if (item.IsChecked == false)
-        {
-                <td> @Html.DisplayFor(modelItem => item.Note) </td>
-        }
-        else
-        {
-            <td><strike>@Html.DisplayFor(modelItem => item.Note)</strike></td>
-        }
-        <td>
-            @Html.DisplayFor(modelItem => item.IsChecked)
-        </td>
-        
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ShoppingListItemID }) |
-            @*@Html.ActionLink("Details", "Details", new { id=item.ShoppingListItemID }) |*@
-            @Html.ActionLink("Delete", "Delete", new { id=item.ShoppingListItemID })
-        </td>
-    </tr>
-}
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <div class="panel-body">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <div class="checkbox">
+                                <input type="checkbox" id="checkbox" />
+                                <label for="checkbox">
+                                    @Html.DisplayFor(modelItem => item.Contents)
+                                </label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Priority)
+            </td>
+
+            <td> @Html.DisplayFor(modelItem => item.Note) </td>
+
+            @*<td>
+                @Html.DisplayFor(modelItem => item.IsChecked, new { Id = item.ShoppingListItemID })
+            </td>*@
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ShoppingListItemID }) |
+                @*@Html.ActionLink("Details", "Details", new { id=item.ShoppingListItemID }) |*@
+                @Html.ActionLink("Delete", "Delete", new { id = item.ShoppingListItemID })
+            </td>
+        </tr>
+    }
 
 </table>
 <br />
