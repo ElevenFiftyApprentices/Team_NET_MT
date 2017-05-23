@@ -61,3 +61,15 @@ textarea {
 .list-group {
     margin-bottom: 0px;
 }
+
+.navbar-inverse {
+    background-color: #e8484f;
+}
+    .navbar-inverse .navbar-nav > li > a {
+    color: #6fb6de;
+}
+.container{
+    color: #6fb6de
+}
+.navbar-inverse .navbar-brand {
+    color: #6fb6de;
