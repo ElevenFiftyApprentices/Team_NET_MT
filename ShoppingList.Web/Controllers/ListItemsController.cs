@@ -18,11 +18,14 @@ namespace ShoppingList.Web.Controllers
     public class ListItemsController : Controller
     {
         private ShoppingListDbContext db = new ShoppingListDbContext();
+        private int? ID;
 
         // GET: ListItems
         // GET: Customer
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
+            
+
             var service = CreateService();
 
             var items = service.GetItems();
@@ -198,8 +201,21 @@ namespace ShoppingList.Web.Controllers
 
         private ShoppingListItemService CreateService()
         {
+
+            if (TempData.ContainsKey("ID"))
+            {
+                //If so access it here
+                ID = TempData["ID"] as int?;
+            }
+            else
+            {
+                //If so access it here
+                ID = 0;
+            }
+
             var userId = Guid.Parse(User.Identity.GetUserId());
-            var service = new ShoppingListItemService(userId);
+            var listId = (int)ID;
+            var service = new ShoppingListItemService(userId, listId);
             return service;
         }
     }

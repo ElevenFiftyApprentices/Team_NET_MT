@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using ShoppingList.Data;
 using ShoppingList.Data.Models;
+using ShoppingList.Services;
+using Microsoft.AspNet.Identity;
 
 namespace ShoppingList.Web.Controllers
 {
@@ -21,9 +23,17 @@ namespace ShoppingList.Web.Controllers
             return View(db.ShoppingLists.ToList());
         }
 
+        [HttpPost]
+        public ActionResult Index(int id)
+        {
+            return View(db.ShoppingLists.ToList());
+        }
+
         // GET: ShoppingList/Details/5
         public ActionResult Details(int? id)
         {
+
+            var service = CreateService();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -33,7 +43,10 @@ namespace ShoppingList.Web.Controllers
             {
                 return HttpNotFound();
             }
-            return View(shopping_List);
+
+ 
+
+            return RedirectToAction("Index","ListItems");
         }
 
         // GET: ShoppingList/Create
@@ -124,5 +137,13 @@ namespace ShoppingList.Web.Controllers
             }
             base.Dispose(disposing);
         }
+
+        private ShoppingListService CreateService()
+        {
+            var userId = Guid.Parse(User.Identity.GetUserId());
+            var service = new ShoppingListService(userId);
+            return service;
+        }
+
     }
 }

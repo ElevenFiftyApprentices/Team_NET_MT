@@ -12,28 +12,15 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.UserID)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Color)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CreatedUtc)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ModidiedUtc)
-        </th>
-        <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserID)
-        </td>
         <td>
             @Html.DisplayFor(modelItem => item.Name)
         </td>
@@ -41,15 +28,9 @@
             @Html.DisplayFor(modelItem => item.Color)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.CreatedUtc)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ModidiedUtc)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ShoppingListID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ShoppingListID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ShoppingListID })
+            @Html.ActionLink("Edit", "Edit", new { id=item.Shopping_ListID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Shopping_ListID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Shopping_ListID })
         </td>
     </tr>
 }

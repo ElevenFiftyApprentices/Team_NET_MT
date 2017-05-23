@@ -15,12 +15,14 @@ namespace ShoppingList.Services
     public class ShoppingListItemService
     {
         private readonly Guid _userId;
+        private readonly int _listId;
 
         private ShoppingListDbContext db = new ShoppingListDbContext();
 
-        public ShoppingListItemService(Guid userId)
+        public ShoppingListItemService(Guid userId, int listId)
         {
             _userId = userId;
+            _listId = listId;
         }
         //TODO: Grab the Items from Database
         public bool CreateItem(ShoppingItemCreate model)
@@ -29,6 +31,7 @@ namespace ShoppingList.Services
                 new ShoppingListItem
                 {
                     OwnerId = _userId,
+                    Shopping_ListID = _listId,
                     Contents = model.Contents,
                     Priority = model.Priority,
                     Note = model.Note,
@@ -51,7 +54,7 @@ namespace ShoppingList.Services
                 var query =
                     ctx
                         .ShoppingListItems
-                        .Where(e => e.OwnerId == _userId)
+                        .Where(e => e.OwnerId == _userId && e.Shopping_ListID == _listId)
                         .Select(
                             e =>
                                 new ShoppingItemIndex
@@ -107,5 +110,8 @@ namespace ShoppingList.Services
                 return ctx.SaveChanges() == 1;
             }
         }
+
+
+
     }
 }

@@ -54,6 +54,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ShoppingListCreate.cs" />
+    <Compile Include="ShoppingListEdit.cs" />
+    <Compile Include="ShoppingListIndex.cs" />
     <Compile Include="ShoppingItemCreate.cs" />
     <Compile Include="ShoppingItemEdit.cs" />
     <Compile Include="ShoppingItemIndex.cs" />
