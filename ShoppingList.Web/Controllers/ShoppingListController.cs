@@ -22,7 +22,6 @@ namespace ShoppingList.Web.Controllers
         public ActionResult Index()
         {
             var service = CreateService();
-
             var model = service.GetLists();
             return View(model);
         }
