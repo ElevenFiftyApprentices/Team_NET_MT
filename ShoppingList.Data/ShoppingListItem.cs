@@ -43,5 +43,8 @@ namespace ShoppingList.Data
         public DateTimeOffset? ModifiedUtc { get; set; }
 
 
+        public Shopping_List Shoppinglist { get; set; }
+
+
     }
 }
