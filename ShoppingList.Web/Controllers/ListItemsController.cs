@@ -119,11 +119,11 @@ namespace ShoppingList.Web.Controllers
 
             if (service.CreateItem(model))
             {
-                TempData["SaveResult"] = "Your note was successfully created!";
+                TempData["SaveResult"] = "Your item was successfully created!";
                 return RedirectToAction("Index");
             }
 
-            ModelState.AddModelError("", "Your note could not be created.");
+            ModelState.AddModelError("", "Your item could not be created.");
 
             TempData["ID"] = ID;
 
@@ -146,6 +146,9 @@ namespace ShoppingList.Web.Controllers
                     Priority = detail.Priority,
                     Note = detail.Note
                 };
+
+            TempData["ID"] = ID;
+
             return View(model);
         }
 
@@ -175,7 +178,7 @@ namespace ShoppingList.Web.Controllers
 
             ModelState.AddModelError("", "Your list item could not be updated.");
 
-            TempData["ID"] = ID;
+            ID = TempData["ID"] as int?;
 
             return View(model);
         }
@@ -204,7 +207,7 @@ namespace ShoppingList.Web.Controllers
             db.ShoppingListItems.Remove(shoppingListItem);
             db.SaveChanges();
 
-            TempData["ID"] = ID;
+            ID = TempData["ID"] as int?;
 
             return RedirectToAction("Index");
         }
