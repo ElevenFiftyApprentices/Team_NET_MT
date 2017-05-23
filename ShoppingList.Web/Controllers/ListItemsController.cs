@@ -155,11 +155,11 @@ namespace ShoppingList.Web.Controllers
 
             if (service.UpdateItem(model))
             {
-                TempData["SaveResult"] = "Your note was successfully updated!";
+                TempData["SaveResult"] = "Your list item was successfully updated!";
                 return RedirectToAction("Index");
             }
 
-            ModelState.AddModelError("", "Your note could not be updated.");
+            ModelState.AddModelError("", "Your list item could not be updated.");
 
             return View(model);
         }

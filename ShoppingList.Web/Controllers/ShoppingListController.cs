@@ -10,6 +10,7 @@ using ShoppingList.Data;
 using ShoppingList.Data.Models;
 using ShoppingList.Services;
 using Microsoft.AspNet.Identity;
+using ShoppingList.Models;
 
 namespace ShoppingList.Web.Controllers
 {
@@ -20,13 +21,10 @@ namespace ShoppingList.Web.Controllers
         // GET: ShoppingList
         public ActionResult Index()
         {
-            return View(db.ShoppingLists.ToList());
-        }
+            var service = CreateService();
 
-        [HttpPost]
-        public ActionResult Index(int id)
-        {
-            return View(db.ShoppingLists.ToList());
+            var model = service.GetLists();
+            return View(model);
         }
 
         // GET: ShoppingList/Details/5
@@ -44,8 +42,7 @@ namespace ShoppingList.Web.Controllers
                 return HttpNotFound();
             }
 
- 
-
+            TempData["ID"] = id;
             return RedirectToAction("Index","ListItems");
         }
 
@@ -60,31 +57,38 @@ namespace ShoppingList.Web.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ShoppingListID,UserID,Name,Color,CreatedUtc,ModidiedUtc")] Shopping_List shopping_List)
+        public ActionResult Create(ShoppingListCreate model)
         {
-            if (ModelState.IsValid)
+
+            if (!ModelState.IsValid) return View(model);
+
+            var service = CreateService();
+
+            if (service.CreateItem(model))
             {
-                db.ShoppingLists.Add(shopping_List);
-                db.SaveChanges();
+                TempData["SaveResult"] = "Your note was successfully created!";
                 return RedirectToAction("Index");
             }
 
-            return View(shopping_List);
+            ModelState.AddModelError("", "Your note could not be created.");
+            return RedirectToAction("Index");
         }
 
         // GET: ShoppingList/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Shopping_List shopping_List = db.ShoppingLists.Find(id);
-            if (shopping_List == null)
-            {
-                return HttpNotFound();
-            }
-            return View(shopping_List);
+            var service = CreateService();
+            var detail = service.GetNoteById(id);
+
+            var model =
+                new ShoppingListEdit
+                {
+                    Shopping_ListID = detail.Shopping_ListID,
+                    Name = detail.Name,
+                    Color = detail.Color,
+                    ModifiedUtc = detail.ModifiedUtc
+                };
+            return View(model);
         }
 
         // POST: ShoppingList/Edit/5
@@ -92,15 +96,28 @@ namespace ShoppingList.Web.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ShoppingListID,UserID,Name,Color,CreatedUtc,ModidiedUtc")] Shopping_List shopping_List)
+        public ActionResult Edit(int id, ShoppingListEdit model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return View(model);
+
+            if (model.Shopping_ListID != id)
             {
-                db.Entry(shopping_List).State = EntityState.Modified;
-                db.SaveChanges();
+                ModelState.AddModelError("", "ID Mismatch");
+                return View(model);
+            }
+
+            var service = CreateService();
+
+
+            if (service.UpdateItem(model))
+            {
+                TempData["SaveResult"] = "Your list was successfully updated!";
                 return RedirectToAction("Index");
             }
-            return View(shopping_List);
+
+            ModelState.AddModelError("", "Your list could not be updated.");
+
+            return View(model);
         }
 
         // GET: ShoppingList/Delete/5

@@ -40,7 +40,7 @@ namespace ShoppingList.Services
             }
         }
 
-        public IEnumerable<ShoppingListIndex> GetItems()
+        public IEnumerable<ShoppingListIndex> GetLists()
         {
             using (var ctx = new ShoppingListDbContext())
             {
