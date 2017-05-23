@@ -18,11 +18,22 @@ namespace ShoppingList.Web.Controllers
     public class ListItemsController : Controller
     {
         private ShoppingListDbContext db = new ShoppingListDbContext();
+        private int? ID;
 
         // GET: ListItems
         // GET: Customer
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
+
+            if (TempData.ContainsKey("ID"))
+            {
+                ID = TempData["ID"] as int?;
+            }
+            //else
+            //{
+            //    ID = 0;
+            //}
+
             var service = CreateService();
 
             var items = service.GetItems();
@@ -66,6 +77,9 @@ namespace ShoppingList.Web.Controllers
             }
             int pageSize = 6;
             int pageNumber = (page ?? 1);
+
+            TempData["ID"] = ID;
+
             return View(items.ToPagedList(pageNumber, pageSize));
         }
 
@@ -110,6 +124,9 @@ namespace ShoppingList.Web.Controllers
             }
 
             ModelState.AddModelError("", "Your note could not be created.");
+
+            TempData["ID"] = ID;
+
             return RedirectToAction("Index");
 
         }
@@ -152,11 +169,13 @@ namespace ShoppingList.Web.Controllers
 
             if (service.UpdateItem(model))
             {
-                TempData["SaveResult"] = "Your note was successfully updated!";
+                TempData["SaveResult"] = "Your list item was successfully updated!";
                 return RedirectToAction("Index");
             }
 
-            ModelState.AddModelError("", "Your note could not be updated.");
+            ModelState.AddModelError("", "Your list item could not be updated.");
+
+            TempData["ID"] = ID;
 
             return View(model);
         }
@@ -184,6 +203,9 @@ namespace ShoppingList.Web.Controllers
             ShoppingListItem shoppingListItem = db.ShoppingListItems.Find(id);
             db.ShoppingListItems.Remove(shoppingListItem);
             db.SaveChanges();
+
+            TempData["ID"] = ID;
+
             return RedirectToAction("Index");
         }
 
@@ -198,8 +220,11 @@ namespace ShoppingList.Web.Controllers
 
         private ShoppingListItemService CreateService()
         {
+
+            ID = TempData["ID"] as int?;
             var userId = Guid.Parse(User.Identity.GetUserId());
-            var service = new ShoppingListItemService(userId);
+            var listId = (int)ID;
+            var service = new ShoppingListItemService(userId, listId);
             return service;
         }
     }
