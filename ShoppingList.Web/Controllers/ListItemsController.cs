@@ -175,6 +175,8 @@ namespace ShoppingList.Web.Controllers
 
             ModelState.AddModelError("", "Your list item could not be updated.");
 
+            TempData["ID"] = ID;
+
             return View(model);
         }
 
@@ -201,6 +203,9 @@ namespace ShoppingList.Web.Controllers
             ShoppingListItem shoppingListItem = db.ShoppingListItems.Find(id);
             db.ShoppingListItems.Remove(shoppingListItem);
             db.SaveChanges();
+
+            TempData["ID"] = ID;
+
             return RedirectToAction("Index");
         }
 
