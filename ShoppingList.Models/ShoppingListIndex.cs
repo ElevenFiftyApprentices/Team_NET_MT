@@ -11,6 +11,7 @@ namespace ShoppingList.Models
 {
     public class ShoppingListIndex
     {
+        public int Shopping_ListID { get; set; }
 
         public string Name { get; set; }
 

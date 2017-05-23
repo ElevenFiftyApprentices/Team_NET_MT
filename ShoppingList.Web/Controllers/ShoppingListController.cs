@@ -14,6 +14,7 @@ using ShoppingList.Models;
 
 namespace ShoppingList.Web.Controllers
 {
+    [Authorize]
     public class ShoppingListController : Controller
     {
         private ShoppingListDbContext db = new ShoppingListDbContext();

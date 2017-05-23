@@ -24,7 +24,15 @@ namespace ShoppingList.Web.Controllers
         // GET: Customer
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            
+
+            if (TempData.ContainsKey("ID"))
+            {
+                ID = TempData["ID"] as int?;
+            }
+            //else
+            //{
+            //    ID = 0;
+            //}
 
             var service = CreateService();
 
@@ -69,6 +77,9 @@ namespace ShoppingList.Web.Controllers
             }
             int pageSize = 6;
             int pageNumber = (page ?? 1);
+
+            TempData["ID"] = ID;
+
             return View(items.ToPagedList(pageNumber, pageSize));
         }
 
@@ -113,6 +124,9 @@ namespace ShoppingList.Web.Controllers
             }
 
             ModelState.AddModelError("", "Your note could not be created.");
+
+            TempData["ID"] = ID;
+
             return RedirectToAction("Index");
 
         }
@@ -202,17 +216,7 @@ namespace ShoppingList.Web.Controllers
         private ShoppingListItemService CreateService()
         {
 
-            if (TempData.ContainsKey("ID"))
-            {
-                //If so access it here
-                ID = TempData["ID"] as int?;
-            }
-            else
-            {
-                //If so access it here
-                ID = 0;
-            }
-
+            ID = TempData["ID"] as int?;
             var userId = Guid.Parse(User.Identity.GetUserId());
             var listId = (int)ID;
             var service = new ShoppingListItemService(userId, listId);

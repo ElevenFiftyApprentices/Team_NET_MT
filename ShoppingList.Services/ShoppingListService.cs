@@ -52,6 +52,7 @@ namespace ShoppingList.Services
                             e =>
                                 new ShoppingListIndex
                                 {
+                                    Shopping_ListID = e.Shopping_ListID,
                                     Name = e.Name,
                                     Color = e.Color
                                 }
