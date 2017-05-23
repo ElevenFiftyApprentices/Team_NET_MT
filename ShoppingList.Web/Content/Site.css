@@ -63,13 +63,23 @@ textarea {
 }
 
 .navbar-inverse {
-    background-color: #e8484f;
+    background-color: #6fb6de;
 }
     .navbar-inverse .navbar-nav > li > a {
-    color: #6fb6de;
+    color: black;
 }
-.container{
+/*.container{
     color: #6fb6de
-}
+}*/
 .navbar-inverse .navbar-brand {
-    color: #6fb6de;
+    color: black;
+}
+h2, .h2 {
+    color: #e8484f;
+}
+.navbar-inverse .navbar-toggle:hover, .navbar-inverse .navbar-toggle:focus {
+    background-color: #e8484f;
+}
+.navbar-inverse .navbar-toggle {
+    background-color: #aaaaaa;
+}
