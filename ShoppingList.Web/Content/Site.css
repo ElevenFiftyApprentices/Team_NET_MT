@@ -16,6 +16,7 @@
     white-space: normal;
 }
 
+
 /* Set width on the form input elements since they're 100% wide by default */
 input,
 select,
@@ -82,4 +83,8 @@ h2, .h2 {
 }
 .navbar-inverse .navbar-toggle {
     background-color: #aaaaaa;
+}
+
+.ListTableRow {
+    vertical-align: central;
 }
