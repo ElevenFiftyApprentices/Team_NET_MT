@@ -187,31 +187,33 @@ namespace ShoppingList.Web.Controllers
             return View(model);
         }
 
-        // GET: ListItems/Delete/5
-        public ActionResult Delete(int? id)
+        // GET: ShoppingList/Delete/5
+        public ActionResult Delete(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ShoppingListItem shoppingListItem = db.ShoppingListItems.Find(id);
-            if (shoppingListItem == null)
-            {
-                return HttpNotFound();
-            }
-            return View(shoppingListItem);
+            var service = CreateService();
+            var model = service.GetNoteById(id);
+            TempData["ID"] = ID;
+            return View(model);
         }
 
-        // POST: ListItems/Delete/5
+        // POST: ShoppingList/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            ShoppingListItem shoppingListItem = db.ShoppingListItems.Find(id);
-            db.ShoppingListItems.Remove(shoppingListItem);
-            db.SaveChanges();
 
-            ID = TempData["ID"] as int?;
+            var service = CreateService();
+            TempData["ID"] = ID;
+
+            if (service.DeleteItem(id))
+            {
+                TempData["SaveResult"] = "Your item was successfully deleted.";
+                return RedirectToAction("Index");
+            }
+
+            ModelState.AddModelError("", "Your item could not be deleted!");
+
+             
 
             return RedirectToAction("Index");
         }

@@ -1,14 +1,9 @@
 ﻿using ShoppingList.Data;
-using System.Data.Entity;
 using ShoppingList.Data.Models;
 using ShoppingList.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNet.Identity;
-using ShoppingList.Services;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ShoppingList.Services
 {
@@ -109,6 +104,24 @@ namespace ShoppingList.Services
 
                 return ctx.SaveChanges() == 1;
             }
+        }
+
+        public bool DeleteItem(int itemId)
+        {
+            using (var ctx = new ShoppingListDbContext())
+            {
+                var entity =
+                    ctx
+                    .ShoppingListItems.Single(e => e.ShoppingListItemID == itemId && e.OwnerId == _userId);
+
+                ctx.ShoppingListItems.Remove(entity);
+
+
+
+                return ctx.SaveChanges() == 1;
+
+            }
+
         }
 
 
