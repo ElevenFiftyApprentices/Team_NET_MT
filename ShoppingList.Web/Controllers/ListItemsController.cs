@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Net;
-using System.Web;
-using System.Web.Mvc;
-using ShoppingList.Data;
+﻿using Microsoft.AspNet.Identity;
+using PagedList;
 using ShoppingList.Data.Models;
 using ShoppingList.Models;
-using Microsoft.AspNet.Identity;
 using ShoppingList.Services;
-using PagedList;
+using System;
+using System.Data;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace ShoppingList.Web.Controllers
 {
@@ -83,20 +79,26 @@ namespace ShoppingList.Web.Controllers
             return View(items.ToPagedList(pageNumber, pageSize));
         }
 
-        // GET: ListItems/Details/5
-        public ActionResult Details(int? id)
+        [HttpPost]
+        public ActionResult Index()
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ShoppingListItem shoppingListItem = db.ShoppingListItems.Find(id);
-            if (shoppingListItem == null)
-            {
-                return HttpNotFound();
-            }
-            return View(shoppingListItem);
+            return RedirectToAction("Index", "ShoppingList");
         }
+
+        // GET: ListItems/Details/5
+        //public ActionResult Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    ShoppingListItem shoppingListItem = db.ShoppingListItems.Find(id);
+        //    if (shoppingListItem == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(shoppingListItem);
+        //}
 
         // GET: ListItems/Create
         public ActionResult Create()
@@ -119,7 +121,7 @@ namespace ShoppingList.Web.Controllers
 
             if (service.CreateItem(model))
             {
-                TempData["SaveResult"] = "Your item was successfully created!";
+                TempData["SaveResult2"] = "Your item was successfully created!";
                 return RedirectToAction("Index");
             }
 
@@ -172,7 +174,7 @@ namespace ShoppingList.Web.Controllers
 
             if (service.UpdateItem(model))
             {
-                TempData["SaveResult"] = "Your list item was successfully updated!";
+                TempData["SaveResult2"] = "Your list item was successfully updated!";
                 return RedirectToAction("Index");
             }
 
@@ -183,31 +185,33 @@ namespace ShoppingList.Web.Controllers
             return View(model);
         }
 
-        // GET: ListItems/Delete/5
-        public ActionResult Delete(int? id)
+        // GET: ShoppingList/Delete/5
+        public ActionResult Delete(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ShoppingListItem shoppingListItem = db.ShoppingListItems.Find(id);
-            if (shoppingListItem == null)
-            {
-                return HttpNotFound();
-            }
-            return View(shoppingListItem);
+            var service = CreateService();
+            var model = service.GetNoteById(id);
+            TempData["ID"] = ID;
+            return View(model);
         }
 
-        // POST: ListItems/Delete/5
+        // POST: ShoppingList/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            ShoppingListItem shoppingListItem = db.ShoppingListItems.Find(id);
-            db.ShoppingListItems.Remove(shoppingListItem);
-            db.SaveChanges();
 
-            ID = TempData["ID"] as int?;
+            var service = CreateService();
+            TempData["ID"] = ID;
+
+            if (service.DeleteItem(id))
+            {
+                TempData["SaveResult"] = "Your item was successfully deleted.";
+                return RedirectToAction("Index");
+            }
+
+            ModelState.AddModelError("", "Your item could not be deleted!");
+
+             
 
             return RedirectToAction("Index");
         }

@@ -10,13 +10,13 @@
     @Html.ActionLink("Create New", "Create")
 </p>
 
-@if (TempData.ContainsKey("SaveResult"))
+@if (TempData.ContainsKey("SaveResult2"))
 {
     <div class="alert alert-success fade in" role="alert">
         <button type="button" class="close" data-dismiss="alert">
             <span>&times;</span>
         </button>
-        @TempData["SaveResult"]
+        @TempData["SaveResult2"]
     </div>
 }
 
@@ -58,7 +58,7 @@
     @foreach (var item in Model)
     {
         <tr>
-            <td>
+            <td class="ListTableRow">
                 <div class="panel-body">
                     <ul class="list-group">
                         <li class="list-group-item">
@@ -73,16 +73,16 @@
                 </div>
             </td>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.Priority)
+            <td class="ListTableRow">
+                  @Html.DisplayFor(modelItem => item.Priority)
             </td>
 
-            <td> @Html.DisplayFor(modelItem => item.Note) </td>
+            <td class="ListTableRow"> @Html.DisplayFor(modelItem => item.Note) </td>
 
             @*<td>
-                @Html.DisplayFor(modelItem => item.IsChecked, new { Id = item.ShoppingListItemID })
-            </td>*@
-            <td>
+                    @Html.DisplayFor(modelItem => item.IsChecked, new { Id = item.ShoppingListItemID })
+                </td>*@
+            <td class="ListTableRow">
                 @Html.ActionLink("Edit", "Edit", new { id = item.ShoppingListItemID }) |
                 @*@Html.ActionLink("Details", "Details", new { id=item.ShoppingListItemID }) |*@
                 @Html.ActionLink("Delete", "Delete", new { id = item.ShoppingListItemID })
@@ -92,7 +92,12 @@
 
 </table>
 <br />
+
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
 @Html.PagedListPager(Model, page => Url.Action("Index",
     new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+
+<div class="col-md-10">
+    <input type="button" value="Back" class="btn btn-default" onclick="@("window.location.href='" + @Url.Action("Index", "ShoppingList") + "'");" />
+</div>

@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
-using System.Web;
-using System.Web.Mvc;
+﻿using Microsoft.AspNet.Identity;
 using ShoppingList.Data;
 using ShoppingList.Data.Models;
-using ShoppingList.Services;
-using Microsoft.AspNet.Identity;
 using ShoppingList.Models;
+using ShoppingList.Services;
+using System;
+using System.Net;
+using System.Web.Mvc;
 
 namespace ShoppingList.Web.Controllers
 {
@@ -66,11 +61,11 @@ namespace ShoppingList.Web.Controllers
 
             if (service.CreateItem(model))
             {
-                TempData["SaveResult"] = "Your note was successfully created!";
+                TempData["SaveResult"] = "Your list was successfully created!";
                 return RedirectToAction("Index");
             }
 
-            ModelState.AddModelError("", "Your note could not be created.");
+            ModelState.AddModelError("", "Your list could not be created.");
             return RedirectToAction("Index");
         }
 
@@ -120,18 +115,11 @@ namespace ShoppingList.Web.Controllers
         }
 
         // GET: ShoppingList/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Shopping_List shopping_List = db.ShoppingLists.Find(id);
-            if (shopping_List == null)
-            {
-                return HttpNotFound();
-            }
-            return View(shopping_List);
+            var service = CreateService();
+            var model = service.GetNoteById(id);
+            return View(model);
         }
 
         // POST: ShoppingList/Delete/5
@@ -139,9 +127,17 @@ namespace ShoppingList.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Shopping_List shopping_List = db.ShoppingLists.Find(id);
-            db.ShoppingLists.Remove(shopping_List);
-            db.SaveChanges();
+            var service = CreateService();
+
+            if (service.DeleteList(id))
+            {
+                TempData["SaveResult"] = "Your list was successfully deleted.";
+                return RedirectToAction("Index");
+            }
+
+            ModelState.AddModelError("", "Your list could not be deleted!");
+
+
             return RedirectToAction("Index");
         }
 
