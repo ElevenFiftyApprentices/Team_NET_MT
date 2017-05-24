@@ -267,12 +267,10 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\ListItems\Create.cshtml" />
     <Content Include="Views\ListItems\Delete.cshtml" />
-    <Content Include="Views\ListItems\Details.cshtml" />
     <Content Include="Views\ListItems\Edit.cshtml" />
     <Content Include="Views\ListItems\Index.cshtml" />
     <Content Include="Views\ShoppingList\Create.cshtml" />
     <Content Include="Views\ShoppingList\Delete.cshtml" />
-    <Content Include="Views\ShoppingList\Details.cshtml" />
     <Content Include="Views\ShoppingList\Edit.cshtml" />
     <Content Include="Views\ShoppingList\Index.cshtml" />
   </ItemGroup>

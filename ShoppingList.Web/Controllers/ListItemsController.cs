@@ -1,13 +1,11 @@
 ﻿using Microsoft.AspNet.Identity;
 using PagedList;
-using ShoppingList.Data;
 using ShoppingList.Data.Models;
 using ShoppingList.Models;
 using ShoppingList.Services;
 using System;
 using System.Data;
 using System.Linq;
-using System.Net;
 using System.Web.Mvc;
 
 namespace ShoppingList.Web.Controllers
@@ -88,19 +86,19 @@ namespace ShoppingList.Web.Controllers
         }
 
         // GET: ListItems/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ShoppingListItem shoppingListItem = db.ShoppingListItems.Find(id);
-            if (shoppingListItem == null)
-            {
-                return HttpNotFound();
-            }
-            return View(shoppingListItem);
-        }
+        //public ActionResult Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    ShoppingListItem shoppingListItem = db.ShoppingListItems.Find(id);
+        //    if (shoppingListItem == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(shoppingListItem);
+        //}
 
         // GET: ListItems/Create
         public ActionResult Create()
