@@ -66,11 +66,11 @@ namespace ShoppingList.Web.Controllers
 
             if (service.CreateItem(model))
             {
-                TempData["SaveResult"] = "Your note was successfully created!";
+                TempData["SaveResult"] = "Your list was successfully created!";
                 return RedirectToAction("Index");
             }
 
-            ModelState.AddModelError("", "Your note could not be created.");
+            ModelState.AddModelError("", "Your list could not be created.");
             return RedirectToAction("Index");
         }
 

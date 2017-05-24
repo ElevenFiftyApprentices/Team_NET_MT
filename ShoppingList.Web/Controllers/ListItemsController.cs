@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Net;
-using System.Web;
-using System.Web.Mvc;
+﻿using Microsoft.AspNet.Identity;
+using PagedList;
 using ShoppingList.Data;
 using ShoppingList.Data.Models;
 using ShoppingList.Models;
-using Microsoft.AspNet.Identity;
 using ShoppingList.Services;
-using PagedList;
+using System;
+using System.Data;
+using System.Linq;
+using System.Net;
+using System.Web.Mvc;
 
 namespace ShoppingList.Web.Controllers
 {
@@ -83,6 +81,12 @@ namespace ShoppingList.Web.Controllers
             return View(items.ToPagedList(pageNumber, pageSize));
         }
 
+        [HttpPost]
+        public ActionResult Index()
+        {
+            return RedirectToAction("Index", "ShoppingList");
+        }
+
         // GET: ListItems/Details/5
         public ActionResult Details(int? id)
         {
@@ -119,7 +123,7 @@ namespace ShoppingList.Web.Controllers
 
             if (service.CreateItem(model))
             {
-                TempData["SaveResult"] = "Your item was successfully created!";
+                TempData["SaveResult2"] = "Your item was successfully created!";
                 return RedirectToAction("Index");
             }
 
@@ -172,7 +176,7 @@ namespace ShoppingList.Web.Controllers
 
             if (service.UpdateItem(model))
             {
-                TempData["SaveResult"] = "Your list item was successfully updated!";
+                TempData["SaveResult2"] = "Your list item was successfully updated!";
                 return RedirectToAction("Index");
             }
 
