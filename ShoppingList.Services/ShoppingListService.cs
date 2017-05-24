@@ -4,8 +4,6 @@ using ShoppingList.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ShoppingList.Services
 {
@@ -96,6 +94,36 @@ namespace ShoppingList.Services
 
                 return ctx.SaveChanges() == 1;
             }
+        }
+
+        public bool DeleteList(int listId)
+        {
+            using (var ctx = new ShoppingListDbContext())
+            {
+                var entity =
+                    ctx
+                    .ShoppingLists.Single(e => e.Shopping_ListID == listId && e.OwnerId == _userId);
+
+                ctx.ShoppingLists.Remove(entity);
+
+                db.ShoppingListItems.RemoveRange(
+                    db
+                    .ShoppingListItems
+                    .Where(i => i.Shopping_ListID == listId)
+                    );
+
+                var listItems =
+                    ctx
+                    .ShoppingListItems
+                    .Where(i => i.Shopping_ListID == listId);
+
+                ctx.ShoppingListItems.RemoveRange(listItems);
+
+
+                return ctx.SaveChanges() < 1;
+
+            }
+
         }
     }
 }
